@@ -1,4 +1,4 @@
-// from: https://github.com/CrossVR/hqx-shader/blob/master/resources/hq4x.png
+// from: https://github.com/CrossVR/hqx-shader
 
 export default `
 /*
