@@ -99,7 +99,19 @@ Call `pico8Filter.setFilter` to set a new filter.
 
   The the resolution to make the canvas. Pico-8's normal canvas
   size is 128x128 but if you want to post process you probably want
-  more output pixels than input pixels.
+  more output pixels than input pixels. The default is 128x128
+  Setting a dimension to a negative number means to take that canvas's
+  display times that amount. In other words,
+
+  ```
+  width: 128,   // make the canvas's resolution 128 pixels wide
+  ```
+
+  vs
+
+  ```
+  width: -2,    // make the canvas's resolution double its display size 
+  ```
 
 * `iChannel0`, `iChannel1`, `iChannel2`, `iChannel3` (object)
 

@@ -223,6 +223,8 @@ class Pico8FilterRenderingContext {
     this.gl = gl;
     this.then = 0;
     this.frame = 0;
+    this.width = 128;
+    this.height = 128;
     this.textureDimensions = [
       128, 128, 1,
       1, 1, 1,
@@ -302,13 +304,27 @@ class Pico8FilterRenderingContext {
     if (x !== 0 || y !== 0) {
       throw new Error('offset to putImageData not support');
     }
-    const gl = this.gl;
+    const {gl, canvas} = this;
 
     this.setupTexture(0, currentFilter.iChannel0, imageData);
 
     if (haveNewFilter) {
       haveNewFilter = false;
       this.updateFilter();
+    }
+
+    {
+      const newWidth = this.width < 0
+          ? canvas.clientWidth * -this.width
+          : this.width;
+      const newHeight = this.height < 0
+          ? canvas.clientHeight * -this.height
+          : this.height;
+      if (canvas.width !== newWidth || canvas.height !== canvas.height) {
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+      }
     }
 
     const now = performance.now() - this.startTime;
@@ -352,20 +368,13 @@ class Pico8FilterRenderingContext {
       this.frame = 0;
       this.startTime = performance.now();
       this.then = this.startTime;
+      this.width = currentFilter.width || 128;
+      this.height = currentFilter.height || 128;
     }
 
     this.setupTexture(1, currentFilter.iChannel1);
     this.setupTexture(2, currentFilter.iChannel2);
     this.setupTexture(3, currentFilter.iChannel3);
-
-    const canvas = this.canvas;
-    const newWidth = currentFilter.width || canvas.width;
-    const newHeight = currentFilter.height || canvas.height;
-    if (canvas.width !== newWidth || canvas.height !== canvas.height) {
-      canvas.width = newWidth;
-      canvas.height = newHeight;
-      gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-    }
   }
   setupTexture(unit, options, src = null) {
     const gl = this.gl;

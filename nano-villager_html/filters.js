@@ -333,10 +333,10 @@ const filters = [
             fragColor = texture2D(iChannel0, uv * 0.5 + 0.5);
         }
       `,
-      width: 512,
-      height: 512,
+      width: -2,
+      height: -2,
       iChannel0: {
-        filter: 'mipmap',
+        filter: 'nearest',
         wrap: 'repeat',
         vFlip: true,
       },
