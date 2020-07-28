@@ -90,7 +90,7 @@ Call `pico8Filter.setFilter` to set a new filter.
 
 * `width`, `height` (number)
 
-  The width to the resolution of the canvas. Pico-8's normal canvas
+  The the resolution to make the canvas. Pico-8's normal canvas
   size is 128x128 but if you want to post process you probably want
   more output pixels than input pixels.
 
