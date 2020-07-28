@@ -9,7 +9,7 @@ Add this script to the top of that page as in
 <script src="https://greggman.github.io/pico-8-post-processing/pico-8-post-processing.js"></script>
 ```
 
-The below it add your WebGL post processing filter.
+Then below it add your WebGL post processing filter.
 
 ```html
 <script>
@@ -29,7 +29,7 @@ pico8Filter.setFilter({
 ```
 
 Filters are based on the same uniforms as [Shadertoy](https://shadertoy.com). In particular you're
-expect to write a GLSL shader function like this
+expected to write a GLSL shader function like this
 
 ```glsl
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
@@ -45,7 +45,7 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto). 
 
 * `uniform vec3 iResolution;`
 
-  The resolution of the canvas
+  The resolution of the canvas or in otherwords the output resolution (see [options](#options) below).
 
 * `uniform float iTime;`
 
