@@ -25,6 +25,13 @@ html, body {
   align-items: center;
   width: 100%;
   justify-content: space-around;
+  position: absolute;;
+}
+.filters {
+  top: 0;
+}
+.gameinfo {
+  bottom: 0;
 }
 .gameinfo span,
 .filters span {
@@ -778,18 +785,6 @@ canvas{
 </head>
 
 <body style="padding:0px; margin:0px; background-color:#222; color:#ccc">
-<div class="parts">
-<div class="filters">
-  <div>filter: <select></select></div>
-  <div>
-    <span></span><a id="src">src</a>
-    <span>author:</span><a id="author"></a>
-    <span>license:</span><a id="license"></a>
-    <span></span>
-  </div>
-  <a href="https://github.com/greggman/pico-8-post-processing"><img src="octocat.svg" width="24"></a>
-</div>
-
 <div id="body_0"> <!-- hide this when playing in mobile (p8_touch_detected) so that elements don't affect layout -->
 
 
@@ -895,6 +890,16 @@ canvas{
 
 
 </div> <!-- body_0 -->
+<div class="filters">
+  <div>filter: <select></select></div>
+  <div>
+    <span></span><a id="src">src</a>
+    <span>author:</span><a id="author"></a>
+    <span>license:</span><a id="license"></a>
+    <span></span>
+  </div>
+  <a href="https://github.com/greggman/pico-8-post-processing"><img src="octocat.svg" width="24"></a>
+</div>
 <div class="gameinfo">
   <div>
     <span>game:</span><a href="https://www.lexaloffle.com/bbs/?pid=79613#p">Nano Village</a>
