@@ -473,10 +473,11 @@ class Pico8FilterRenderingContext {
 HTMLCanvasElement.prototype.getContext = function(origFn) {
 
   return function(type, ...args) {
-    if (type !== '2d') {
-      return origFn.call(this, type, ...args);
-    } else {
+    // only if the id = 'canvas', otherwise we can't create more 2D canvases.
+    if (type === '2d' && this.id === 'canvas') {
       return new Pico8FilterRenderingContext(this);
+    } else {
+      return origFn.call(this, type, ...args);
     }
   };
 

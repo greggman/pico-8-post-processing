@@ -20,6 +20,9 @@ import bugInTheTV from './filters/bug-in-the-tv.js';
 import ledDisplay from './filters/led-display.js';
 import doubleVision from './filters/double-vision.js';
 import gbClassic from './filters/gb-classic.js';
+import cmykHalftone from './filters/cmyk-halftone.js';
+import thinWater from './filters/thin-water.js';
+import pinscreenVideo from './filters/pinscreen-video.js';
 
 const filters = [
   defaultFilter,
@@ -37,8 +40,15 @@ const filters = [
   gbClassic,
   loResRoto,
   hiResRoto,
+  cmykHalftone,
+  thinWater,
 ];
 
+if (document.createElement('canvas').getContext('webgl2')) {
+  filters.push(
+    pinscreenVideo,
+  );
+}
 
 
 // because the script is before the body 😅
