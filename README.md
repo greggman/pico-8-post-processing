@@ -42,7 +42,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 }
 ```
 
-with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto). In particular
+with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto).
 
 ## Uniforms
 
