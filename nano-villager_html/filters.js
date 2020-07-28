@@ -586,8 +586,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     licenseUrl: 'hq4x/LICENSE.txt',
     filter: {
       fragmentShader: hq4xShader,
-      width: 512,
-      height: 512,
+      width: -1,
+      height: -1,
       iChannel1: {
         src: 'hq4x/hq4x.png',
         wrap: 'clamp',
