@@ -1,0 +1,34 @@
+{
+  "name": "pico-8-post-processing",
+  "version": "0.0.1",
+  "description": "post processing for pico-8",
+  "main": "pico-8-post-processing.js",
+  "scripts": {
+    "eslint": "eslint \"**/*.js\"",
+    "pre-push": "npm run eslint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greggman/pico-8-post-processing.git"
+  },
+  "keywords": [
+    "webgl",
+    "pico8",
+    "pico-8",
+    "glsl",
+    "shadertoy"
+  ],
+  "author": "Gregg Tavares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greggman/pico-8-post-processing/issues"
+  },
+  "homepage": "https://github.com/greggman/pico-8-post-processing#readme",
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-plugin-html": "^6.0.2",
+    "eslint-plugin-optional-comma-spacing": "0.0.4",
+    "eslint-plugin-require-trailing-comma": "0.0.1"
+  }
+}
