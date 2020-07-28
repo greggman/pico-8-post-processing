@@ -1,6 +1,6 @@
 // from: https://github.com/CrossVR/hqx-shader
 
-export default `
+const hq4xShader = `
 /*
 * Copyright (C) 2003 Maxim Stepin ( maxst@hiend3d.com )
 *
@@ -120,3 +120,24 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
 }
 `;
+
+export default {
+  name: 'hq4x',
+  author: 'various',
+  authorUrl: 'https://github.com/CrossVR/hqx-shader',
+  src: 'https://github.com/CrossVR/hqx-shader',
+  license: 'LGPL2.1',
+  licenseUrl: 'filters/hq4x/LICENSE.txt',
+  filter: {
+    fragmentShader: hq4xShader,
+    width: -1,
+    height: -1,
+    iChannel1: {
+      src: 'filters/hq4x/hq4x.png',
+      wrap: 'clamp',
+      filter: 'nearest',
+    },
+  },
+};
+
+
