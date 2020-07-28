@@ -1,5 +1,9 @@
 # Pico-8 Post Processing
 
+[Live Example](https://greggman.github.io/pico-8-post-processing/nano-villager_html/).
+
+<img src="./images/pico-8-post-processing.png" style="max-width: 640px">
+
 [Pico-8](https://www.lexaloffle.com/pico-8.php) exports to HTML via
 `export somename.html`
 
@@ -9,7 +13,7 @@ Add this script to the top of that page as in
 <script src="https://greggman.github.io/pico-8-post-processing/pico-8-post-processing.js"></script>
 ```
 
-Then below it add your WebGL post processing filter.
+Then below it add your GLSL post processing filter.
 
 ```html
 <script>
@@ -23,7 +27,6 @@ pico8Filter.setFilter({
   `,
   width: 128,
   height: 128,
-  filter: false,
 });
 </script>
 ```
@@ -45,7 +48,7 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto). 
 
 * `uniform vec3 iResolution;`
 
-  The resolution of the canvas or in otherwords the output resolution (see [options](#options) below).
+  The resolution of the canvas or in other words the output resolution (see [options](#options) below).
 
 * `uniform float iTime;`
 
@@ -59,7 +62,7 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto). 
 
   The frame count since the filter was set
 
-* `uniform float iChannelTime[0];`
+* `uniform float iChannelTime[4];`
 
   The same as `iTime`
 
@@ -72,13 +75,17 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto). 
 
   The date in seconds since January 1st 1970
 
-* `uniform vec3 iChannelResolution[0];`
+* `uniform vec3 iChannelResolution[4];`
 
-  The size of the input texture which is always (128x128) Pico-8
+  `[0]` is the size of the input texture which is always (128x128) Pico-8
 
 * `uniform samplerXX iChannel0;`
 
   The Pico-8 texture
+
+* `uniform samplerXX iChannel1;` (and `2` and `3`)
+
+  User supplied textures (see [options](#options) below).
 
 ## Options
 
@@ -94,11 +101,44 @@ Call `pico8Filter.setFilter` to set a new filter.
   size is 128x128 but if you want to post process you probably want
   more output pixels than input pixels.
 
-* `filter` (boolean)
+* `iChannel0`, `iChannel1`, `iChannel2`, `iChannel3` (object)
 
-  `true` = set filtering to `LINEAR` for the input Pico-8 texture
+  These are users supplied textures, they 4 options
 
-  `false` = set filtering to `NEAREST` for the input Pico-8 texture
+  * `filter` (string)
+
+     like Shadertoy can be `nearest` (default), `linear` or `mipmap`
+
+  * `wrap` (string)
+
+     like Shadertoy can be `repeat` or `clamp` (default)
+
+  * `vFlip` (bool)
+
+     true or false to flip the texture. 
+
+  * `src` (HTMLElement, string, ImageData-ish)
+
+     If you pass it a string it will assume it's a URL for an image and 
+     load it
+
+     If you pass an HTMLElement it will use it immediately
+
+     If you pass it a JavaScript object with something like
+
+     ```js
+     {
+       width: 128,
+       height: 128,
+       data: new Uint8Array(128 * 128 * 4),
+     }
+     ```
+
+     It will upload that data as RGBA/UNSIGNED_BYTE data
+
+  `iChannel0` is always the texture of the game from pico8 so you can
+  only use the `filter`, `wrap` and `vFlip` settings. You'll probably
+  want to set `vFlip` to `true`
 
 ## Licence
 
