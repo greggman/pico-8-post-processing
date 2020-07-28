@@ -26,6 +26,7 @@ pico8Filter.setFilter({
   filter: false,
 });
 </script>
+```
 
 Filters are based on the same uniforms as [Shadertoy](https://shadertoy.com). In particular you're
 expect to write a GLSL shader function like this
