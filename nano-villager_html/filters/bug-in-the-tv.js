@@ -70,7 +70,7 @@ vec2 uv_curve(vec2 uv) {
 }
 
 vec3 color(sampler2D tex, vec2 uv){        
-    vec3 color = texture(iChannel0,uv).rgb;
+    vec3 color = texture2D(iChannel0,uv).rgb;
     #ifdef COLOR
     float bw = (color.r + color.g + color.b) / 3.0;
     color = mix(color,vec3(bw,bw,bw),.95);
@@ -104,7 +104,7 @@ vec3 ghost(sampler2D tex, vec2 uv){
     vec3 color = vec3(r,g,b);
     return color;
     #else 
-    return texture(iChannel0,uv).rgb;
+    return texture2D(iChannel0,uv).rgb;
     #endif
 }
 
@@ -136,7 +136,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 uv = fragCoord / iResolution.xy;
     
     if(iMouse.z>0.){
-        fragColor = texture(iChannel0,uv); 
+        fragColor = texture2D(iChannel0,uv); 
         return;
     }
 

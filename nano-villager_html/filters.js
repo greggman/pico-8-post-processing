@@ -17,6 +17,8 @@ import hq4x from './filters/hq4x/hq4x.js';
 import loResRoto from './filters/lo-res-roto.js';
 import hiResRoto from './filters/hi-res-roto.js';
 import bugInTheTV from './filters/bug-in-the-tv.js';
+import ledDisplay from './filters/led-display.js';
+import doubleVision from './filters/double-vision.js';
 
 const filters = [
   defaultFilter,
@@ -29,6 +31,8 @@ const filters = [
   mattiasCRT,
   hq4x,
   bugInTheTV,
+  ledDisplay,
+  doubleVision,
   loResRoto,
   hiResRoto,
 ];
