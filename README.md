@@ -79,11 +79,11 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto). 
 
   `[0]` is the size of the input texture which is always (128x128) Pico-8
 
-* `uniform samplerXX iChannel0;`
+* `uniform sampler2D iChannel0;`
 
   The Pico-8 texture
 
-* `uniform samplerXX iChannel1;` (and `2` and `3`)
+* `uniform sampler2D iChannel1;` (and `2` and `3`)
 
   User supplied textures (see [options](#options) below).
 
@@ -103,7 +103,7 @@ Call `pico8Filter.setFilter` to set a new filter.
 
 * `iChannel0`, `iChannel1`, `iChannel2`, `iChannel3` (object)
 
-  These are users supplied textures, they 4 options
+  These are user supplied textures, they have 4 options:
 
   * `filter` (string)
 
@@ -122,7 +122,7 @@ Call `pico8Filter.setFilter` to set a new filter.
      If you pass it a string it will assume it's a URL for an image and 
      load it
 
-     If you pass an HTMLElement it will use it immediately
+     If you pass an HTMLElement like `Image` it will use it immediately
 
      If you pass it a JavaScript object with something like
 
