@@ -1,5 +1,8 @@
 /* global document */
+/* global history */
 /* global pico8Filter */
+/* global URL */
+/* global URLSearchParams */
 /* global window */
 
 import hq4xShader from './hq4x/hq4x.glsl.js';
@@ -579,7 +582,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     author: 'various',
     authorUrl: 'https://github.com/CrossVR/hqx-shader',
     src: 'https://github.com/CrossVR/hqx-shader',
-    license: `LGPL2.1`,
+    license: 'LGPL2.1',
     licenseUrl: 'hq4x/LICENSE.txt',
     filter: {
       fragmentShader: hq4xShader,
@@ -644,7 +647,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         wrap: 'repeat',
         vFlip: true,
       },
-    }
+    },
   },
 ];
 
@@ -678,7 +681,15 @@ window.onload = function() {
     pico8Filter.setFilter(filter);
   }
 
-  const firstFilterNdx = 7;
+  let firstFilterNdx = 7;
+  const settings = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+  if (settings.filter) {
+    const index = filters.map(f => f.name).indexOf(settings.filter);
+    if (index >= 0) {
+      firstFilterNdx = index;
+    }
+  }
+
 
   const selectElem = document.querySelector('.filters select');
   filters.forEach((filter) => {
@@ -688,7 +699,10 @@ window.onload = function() {
   });
   selectElem.selectedIndex = firstFilterNdx;
   setFilter(firstFilterNdx);
-  selectElem.addEventListener('change', (e) => {
+  selectElem.addEventListener('change', () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('filter', filters[selectElem.selectedIndex].name);
+    history.replaceState(null, '', url.href);
     setFilter(selectElem.selectedIndex);
   });
 };
