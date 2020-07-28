@@ -19,6 +19,7 @@ import hiResRoto from './filters/hi-res-roto.js';
 import bugInTheTV from './filters/bug-in-the-tv.js';
 import ledDisplay from './filters/led-display.js';
 import doubleVision from './filters/double-vision.js';
+import gbClassic from './filters/gb-classic.js';
 
 const filters = [
   defaultFilter,
@@ -33,6 +34,7 @@ const filters = [
   bugInTheTV,
   ledDisplay,
   doubleVision,
+  gbClassic,
   loResRoto,
   hiResRoto,
 ];
