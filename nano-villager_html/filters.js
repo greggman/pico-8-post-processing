@@ -68,28 +68,28 @@ const filters = [
     licenseUrl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US',
     filter: {
       fragmentShader: `
-    const float uIntensity = 0.03f; // Frame distortion intensity. 0.02 ~ 0.05 recommended.
-    const float uThreshold = 0.85f; // 0.75 ~ 0.90 would be recommended.
-    const float uMax       = 64.0f; // Distortion for edge of threshold.
-    const float uMargin    = 8.0f;  // Margin.
+    const float uIntensity = 0.03; // Frame distortion intensity. 0.02 ~ 0.05 recommended.
+    const float uThreshold = 0.85; // 0.75 ~ 0.90 would be recommended.
+    const float uMax       = 64.0; // Distortion for edge of threshold.
+    const float uMargin    = 8.0;  // Margin.
 
     float GetOverThreadsholdIntensity(const float a, const float t) {
-    	float b = pow(t, 2.0f) * (1.0f - (1.0f / uMax));
-    	return uMax * pow(a - (t - (t / uMax)), 2.0f) + b;
+    	float b = pow(t, 2.0) * (1.0 - (1.0 / uMax));
+    	return uMax * pow(a - (t - (t / uMax)), 2.0) + b;
     }
 
     bool IsOob(const vec2 inputTexCoord) {
-    	return inputTexCoord.x > 1.0f || inputTexCoord.y > 1.0f
-            || inputTexCoord.x < 0.0f || inputTexCoord.y < 0.0f;
+    	return inputTexCoord.x > 1.0 || inputTexCoord.y > 1.0
+            || inputTexCoord.x < 0.0 || inputTexCoord.y < 0.0;
     }
 
     vec2 ApplyMargin(const vec2 texel, const float margin) {
-        vec2 m = vec2(margin * 4.0f) / iResolution.xy;
-    	return (texel - 0.5f) * (1.0f + m) + 0.5f;
+        vec2 m = vec2(margin * 4.0) / iResolution.xy;
+    	return (texel - 0.5) * (1.0 + m) + 0.5;
     }
 
     vec3 GetColor(const vec3 inputOffset) {
-    	return 0.5f + 0.5f * cos(iTime + (inputOffset * 4.0f) + vec3(0, 2, 4));
+    	return 0.5 + 0.5 * cos(iTime + (inputOffset * 4.0) + vec3(0, 2, 4));
     }
 
     float ScaleWithAxis(const float value, const float axis, const float scale) {
@@ -99,8 +99,8 @@ const filters = [
     void mainImage( out vec4 fragColor, in vec2 fragCoord )
     {	// Normalized pixel coordinates (from 0 to 1)
         vec2 uv = fragCoord/iResolution.xy;
-       	float x = uv.x * 2.0f - 1.0f;
-    	float y = uv.y * 2.0f - 1.0f;
+       	float x = uv.x * 2.0 - 1.0;
+    	float y = uv.y * 2.0 - 1.0;
 
         // Distort uv coordinate, and if closer to frame bound, do more distortion.
     	float x_intensity = uIntensity;
@@ -110,8 +110,8 @@ const filters = [
     		x_intensity *= GetOverThreadsholdIntensity(abs(y), uThreshold);
     	}
     	else {
-    		y_intensity *= pow(x, 2.0f);
-    		x_intensity *= pow(y, 2.0f);
+    		y_intensity *= pow(x, 2.0);
+    		x_intensity *= pow(y, 2.0);
     	}
 
         // Get texel and apply margin (px)
@@ -123,9 +123,9 @@ const filters = [
         // so checking texel is out of bound.
         if (IsOob(finalTexel) == false)
         {
-            fragColor = texture(iChannel0, finalTexel);
+            fragColor = texture2D(iChannel0, finalTexel);
                 //GetColor(finalTexel.xyx) *
-                //ScaleWithAxis(texture(iChannel0, finalTexel).r, 1.0f, 1.0f), 1.0f);
+                //ScaleWithAxis(texture2D(iChannel0, finalTexel).r, 1.0, 1.0), 1.0);
         }
     }
       `,
@@ -153,14 +153,14 @@ const filters = [
         vec4 sum=vec4(0.0);
         float num=0.0;
         for(int i=0;i<3;i++){
-            vec2 offset=texture(iChannel1,mod(vec2(uv.x*124.5523+5230.354323*iTime+2523.254*float(i),uv.y*.5364+624.667*iTime+2523.789*float(i)),1.0)).xy;
+            vec2 offset=texture2D(iChannel1,mod(vec2(uv.x*124.5523+5230.354323*iTime+2523.254*float(i),uv.y*.5364+624.667*iTime+2523.789*float(i)),1.0)).xy;
             offset-=0.5;
             offset*=1.9;
-            sum+=vec4(luma(texture(iChannel0,uv+offset)));
+            sum+=vec4(luma(texture2D(iChannel0,uv+offset)));
             num++;
         }
         fragColor=sum/num;
-        //fragColor=texture(iChannel0,uv);
+        //fragColor=texture2D(iChannel0,uv);
     }
       `,
       width: 512,
@@ -268,7 +268,7 @@ const filters = [
     	{
     		float t = float(i) * RCP_NUM_SAMPLES_F;
     		uv.x = sat( uv.x + ofs * t );
-    		vec4 samplecol = texture( iChannel0, uv, -10.0 );
+    		vec4 samplecol = texture2D( iChannel0, uv, -10.0 );
     		vec3 s = spectrum_offset( t );
     		samplecol.rgb = samplecol.rgb * s;
     		sum += samplecol;
@@ -303,7 +303,7 @@ const filters = [
       fragmentShader: `
 float noise(vec2 p)
 {
-	float s = texture(iChannel1,vec2(1.,2.*cos(iTime))*iTime*8. + p*1.).x;
+	float s = texture2D(iChannel1,vec2(1.,2.*cos(iTime))*iTime*8. + p*1.).x;
 	s *= s;
 	return s;
 }
@@ -336,7 +336,7 @@ vec3 getVideo(vec2 uv)
 	float vShift = 0.4*onOff(2.,3.,.9)*(sin(iTime)*sin(iTime*20.) + 
 										 (0.5 + 0.1*sin(iTime*200.)*cos(iTime)));
 	look.y = mod(look.y + vShift, 1.);
-	vec3 video = vec3(texture(iChannel0,look));
+	vec3 video = vec3(texture2D(iChannel0,look));
 	return video;
 }
 
@@ -492,9 +492,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
         
     staticVal *= bottomStaticOpt;
 	
-	float red 	=   texture(	iChannel0, 	vec2(uv.x + xOffset -0.01*rgbOffsetOpt,y)).r+staticVal;
-	float green = 	texture(	iChannel0, 	vec2(uv.x + xOffset,	  y)).g+staticVal;
-	float blue 	=	texture(	iChannel0, 	vec2(uv.x + xOffset +0.01*rgbOffsetOpt,y)).b+staticVal;
+	float red 	=   texture2D(	iChannel0, 	vec2(uv.x + xOffset -0.01*rgbOffsetOpt,y)).r+staticVal;
+	float green = 	texture2D(	iChannel0, 	vec2(uv.x + xOffset,	  y)).g+staticVal;
+	float blue 	=	texture2D(	iChannel0, 	vec2(uv.x + xOffset +0.01*rgbOffsetOpt,y)).b+staticVal;
 	
 	vec3 color = vec3(red,green,blue);
 	float scanline = sin(uv.y*800.0)*0.04*scalinesOpt;
@@ -533,16 +533,16 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 q = fragCoord.xy / iResolution.xy;
     vec2 uv = q;
     uv = curve( uv );
-    vec3 oricol = texture( iChannel0, vec2(q.x,q.y) ).xyz;
+    vec3 oricol = texture2D( iChannel0, vec2(q.x,q.y) ).xyz;
     vec3 col;
 	float x =  sin(0.3*iTime+uv.y*21.0)*sin(0.7*iTime+uv.y*29.0)*sin(0.3+0.33*iTime+uv.y*31.0)*0.0017;
 
-    col.r = texture(iChannel0,vec2(x+uv.x+0.001,uv.y+0.001)).x+0.05;
-    col.g = texture(iChannel0,vec2(x+uv.x+0.000,uv.y-0.002)).y+0.05;
-    col.b = texture(iChannel0,vec2(x+uv.x-0.002,uv.y+0.000)).z+0.05;
-    col.r += 0.08*texture(iChannel0,0.75*vec2(x+0.025, -0.027)+vec2(uv.x+0.001,uv.y+0.001)).x;
-    col.g += 0.05*texture(iChannel0,0.75*vec2(x+-0.022, -0.02)+vec2(uv.x+0.000,uv.y-0.002)).y;
-    col.b += 0.08*texture(iChannel0,0.75*vec2(x+-0.02, -0.018)+vec2(uv.x-0.002,uv.y+0.000)).z;
+    col.r = texture2D(iChannel0,vec2(x+uv.x+0.001,uv.y+0.001)).x+0.05;
+    col.g = texture2D(iChannel0,vec2(x+uv.x+0.000,uv.y-0.002)).y+0.05;
+    col.b = texture2D(iChannel0,vec2(x+uv.x-0.002,uv.y+0.000)).z+0.05;
+    col.r += 0.08*texture2D(iChannel0,0.75*vec2(x+0.025, -0.027)+vec2(uv.x+0.001,uv.y+0.001)).x;
+    col.g += 0.05*texture2D(iChannel0,0.75*vec2(x+-0.022, -0.02)+vec2(uv.x+0.000,uv.y-0.002)).y;
+    col.b += 0.08*texture2D(iChannel0,0.75*vec2(x+-0.02, -0.018)+vec2(uv.x-0.002,uv.y+0.000)).z;
 
     col = clamp(col*0.6+0.4*col*col*1.0,0.0,1.0);
 
