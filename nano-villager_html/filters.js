@@ -16,6 +16,7 @@ import mattiasCRT from './filters/mattias-crt.js';
 import hq4x from './filters/hq4x/hq4x.js';
 import loResRoto from './filters/lo-res-roto.js';
 import hiResRoto from './filters/hi-res-roto.js';
+import bugInTheTV from './filters/bug-in-the-tv.js';
 
 const filters = [
   defaultFilter,
@@ -27,6 +28,7 @@ const filters = [
   distortedTV,
   mattiasCRT,
   hq4x,
+  bugInTheTV,
   loResRoto,
   hiResRoto,
 ];
