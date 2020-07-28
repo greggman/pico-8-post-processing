@@ -23,14 +23,28 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 (function() {
 
 /* global console */
-/* global Image */
 /* global HTMLCanvasElement */
 /* global HTMLElement */
+/* global Image */
+/* global location */
 /* global performance */
+/* global URL */
 /* global window */
 
 function addLineNumbers(str) {
   return str.split('\n').map((line, ndx) => `${ndx + 1}: ${line}`).join('\n');
+}
+
+/**
+ * Checks whether the url's origin is the same so that we can set the `crossOrigin`
+ * @param {string} url url to image
+ * @returns {boolean} true if the window's origin is the same as image's url
+ * @private
+ */
+function urlIsSameOrigin(url) {
+  const localOrigin = (new URL(location.href)).origin;
+  const urlOrigin = (new URL(url, location.href)).origin;
+  return urlOrigin === localOrigin;
 }
 
 function createShader(gl, type, src) {
@@ -398,11 +412,18 @@ class Pico8FilterRenderingContext {
     if (typeof src === 'string') {
       const img = new Image();
       img.onload = () => {
-        this.setupTexture(gl, unit, {
+        this.setupTexture(unit, {
           ...options,
           src: img,
         });
       };
+      img.onerror = () => {
+        console.error(`failed to load image: ${src}`);
+      };
+      if (urlIsSameOrigin(src)) {
+        img.crossOrigin = 'anonymous';
+      }
+      img.src = src;
       return;
     } else if (src instanceof HTMLElement) {
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);

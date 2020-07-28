@@ -2,6 +2,7 @@
 /* global pico8Filter */
 /* global window */
 
+import hq4xShader from './hq4x/hq4x.glsl.js';
 
 const filters = [
   {
@@ -571,6 +572,24 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
       `,
       width: -1,
       height: -1,
+    },
+  },
+  {
+    name: 'hq4x',
+    author: 'various',
+    authorUrl: 'https://github.com/CrossVR/hqx-shader',
+    src: 'https://github.com/CrossVR/hqx-shader',
+    license: `LGPL2.1`,
+    licenseUrl: 'hq4x/LICENSE.txt',
+    filter: {
+      fragmentShader: hq4xShader,
+      width: 512,
+      height: 512,
+      iChannel1: {
+        src: 'hq4x/hq4x.png',
+        wrap: 'clamp',
+        filter: 'nearest',
+      },
     },
   },
   {
