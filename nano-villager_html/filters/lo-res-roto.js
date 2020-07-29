@@ -2,6 +2,7 @@ export default {
   name: 'lo-res roto',
   author: 'gman',
   authorUrl: 'https://greggman.github.io',
+  src: 'https://github.com/greggman/pico-8-post-processing/blob/master/nano-villager_html/filters/lo-res-roto.js',
   license: 'MIT',
   licenseUrl: 'http://github.com/greggman/pico-8-post-proessings/LICENSE.md',
   filter: {

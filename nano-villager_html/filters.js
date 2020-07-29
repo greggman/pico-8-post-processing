@@ -50,6 +50,13 @@ if (document.createElement('canvas').getContext('webgl2')) {
   );
 }
 
+function setLink(elem, href, content) {
+  elem.textContent = content || '';
+  elem.href = href;
+  const show = href ? '' : 'none';
+  elem.style.display = show;
+  elem.previousSibling.style.display = show;
+}
 
 // because the script is before the body 😅
 window.onload = function() {
@@ -60,11 +67,9 @@ window.onload = function() {
   function setFilter(ndx) {
     const filterInfo = filters[ndx];
     const {author, authorUrl, src, license, licenseUrl, filter} = filterInfo;
-    srcElem.href = src || '';
-    authorElem.textContent = author;
-    authorElem.href = authorUrl;
-    licenseElem.textContent = license;
-    licenseElem.href = licenseUrl || '';
+    setLink(srcElem, src, 'src');
+    setLink(authorElem, authorUrl, author);
+    setLink(licenseElem, licenseUrl, license);
     pico8Filter.setFilter(filter);
   }
 

@@ -1,6 +1,10 @@
 export default {
   name: 'default',
-  license: 'CC0',
+  author: 'gman',
+  authorUrl: 'https://greggman.github.io',
+  src: 'https://github.com/greggman/pico-8-post-processing/blob/master/nano-villager_html/filters/default.js',
+  license: 'MIT',
+  licenseUrl: 'http://github.com/greggman/pico-8-post-proessings/LICENSE.md',
   filter: {
     fragmentShader: `
       void mainImage( out vec4 fragColor, in vec2 fragCoord )
