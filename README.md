@@ -35,10 +35,9 @@ Filters are based on the same uniforms as [Shadertoy](https://shadertoy.com). In
 expected to write a GLSL shader function like this
 
 ```glsl
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    vec2 uv = fragCoord / iResolution.xy;
-    fragColor = texture2D(iChannel0, uv);
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+  vec2 uv = fragCoord / iResolution.xy;
+  fragColor = texture2D(iChannel0, uv);
 }
 ```
 
@@ -77,7 +76,8 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto).
 
 * `uniform vec3 iChannelResolution[4];`
 
-  `[0]` is the size of the input texture which is always (128x128) Pico-8
+  `[0]` is the size of the input texture which is always (128x128) Pico-8.
+  The other indices are the size of textures you supply. ([see options](#options))
 
 * `uniform sampler2D iChannel0;`
 
@@ -89,7 +89,8 @@ with access to [the same inputs as Shadertoy](https://www.shadertoy.com/howto).
 
 ## Options
 
-Call `pico8Filter.setFilter` to set a new filter.
+Call `pico8Filter.setFilter` to set a new filter and pass it an object
+with the following properties.
 
 * `fragmentShader` (string)
 
@@ -97,11 +98,11 @@ Call `pico8Filter.setFilter` to set a new filter.
 
 * `width`, `height` (number)
 
-  The the resolution to make the canvas. Pico-8's normal canvas
-  size is 128x128 but if you want to post process you probably want
+  The resolution to make the canvas. Pico-8's normal canvas
+  resolution is 128x128 but if you want to post process you probably want
   more output pixels than input pixels. The default is 128x128
-  Setting a dimension to a negative number means to take that canvas's
-  display times that amount. In other words,
+  Setting a dimension to a negative number means to take the canvas's
+  display size times that amount. In other words,
 
   ```
   width: 128,   // make the canvas's resolution 128 pixels wide
