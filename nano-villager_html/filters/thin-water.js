@@ -123,18 +123,58 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
       vFlip: true,
     },
     iChannel1: {
-      src: createNoise(256, 256),
+      src: blur(blur(createNoise(256, 256))),
       filter: 'mipMap',
       wrap: 'repeat',
     },
   },
 };
 
+function applyKernel(kernel, imageData) {
+  const {data, width, height} = imageData;
+  const src = data.slice();
+
+  function getValue(x, y, channel) {
+    return src[(x + width) % width + ((y + height) % height * width) * 4 + channel];
+  }
+
+  for (let i = 0; i < data.length; ++i) {
+    const p = i / 4 | 0;
+    const xx = p % width;
+    const yy = p / width | 0;
+    const channel = p % 4;
+    let total = 0;
+    let totalF = 0;
+    for (const {x, y, f} of kernel) {
+      total += getValue(xx + x, yy + y, channel) * f;
+      totalF += f;
+    }
+    data[i] = total / totalF;
+  }
+  return imageData;
+}
+
+function blur(imageData) {
+  const kernel = [
+    {x: -1, y: -1, f: 1 / 16, },
+    {x:  1, y: -1, f: 1 / 16, },
+    {x: -1, y:  1, f: 1 / 16, },
+    {x:  1, y:  1, f: 1 / 16, },
+    {x: -1, y:  0, f:  1 / 8, },
+    {x:  1, y:  0, f:  1 / 8, },
+    {x:  0, y: -1, f:  1 / 8, },
+    {x:  0, y:  1, f:  1 / 8, },
+    {x:  0, y:  0, f:  1 / 4, },
+  ];
+  return applyKernel(kernel, imageData);
+}
+
 function createNoise(width, height) {
   const data = new Uint8Array(width * height * 4);
   for (let i = 0; i < data.length; ++i) {
     data[i] = Math.random() * 256;
   }
+
   return {
     width,
     height,
